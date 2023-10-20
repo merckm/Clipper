@@ -1,27 +1,27 @@
-//
-//***************************************************************************
-//
-//  PROGRAMMNAME:                  H W 0 1 1 0
-//
-// --------------------------------------------------------------------------
-//
-//  VERWENDETE DATEIEN              AA-CODE
-//                                  HW-ADRES
-//
-//---------------------------------------------------------------------------
-//
-//  AUFGABE:  Neuanlegen Handwerker-Adressen
-//
-//---------------------------------------------------------------------------
-//
-// VERWENDETE MASKEN:        H W 0 1 1 0 F 1  (IM PROGRAMM)
-//
-//---------------------------------------------------------------------------
-//
+*
+****************************************************************************
+*
+*  PROGRAMMNAME:                  H W 0 1 1 0
+*
+* --------------------------------------------------------------------------
+*
+*  VERWENDETE DATEIEN              AA-CODE
+*                                  HW-ADRES
+*
+*---------------------------------------------------------------------------
+*
+*  AUFGABE:  Neuanlegen Handwerker-Adressen
+*
+*---------------------------------------------------------------------------
+*
+* VERWENDETE MASKEN:        H W 0 1 1 0 F 1  (IM PROGRAMM)
+*
+*---------------------------------------------------------------------------
+*
 
-//--------------------------------------------------------------------------*
-// Initialisierungen
-//--------------------------------------------------------------------------*
+*--------------------------------------------------------------------------*
+* Initialisierungen
+*--------------------------------------------------------------------------*
 PROCEDURE HW0110()
 
    PNAME = "HW0110"
@@ -94,7 +94,7 @@ PROCEDURE HW0110()
       STORE SPACE(30) TO f_keytext[n_i] 
    NEXT
 
-   * Finktionstasten belegen
+   * Funktionstasten belegen
    f_key[2] = "ZURöCK "
    f_key[3] = "       "
    f_key[4] = "       "
@@ -144,7 +144,7 @@ PROCEDURE HW0110()
          STORE SPACE(30) TO f_keytext[n_i] 
       NEXT
     
-      // Finktionstasten belegen
+      * Funktionstasten belegen
       f_key[2] = "ZURöCK "
       f_key[3] = "       "
       f_key[4] = "       "
@@ -243,7 +243,7 @@ PROCEDURE HW0110()
             EXIT
          ELSE
 
-            //               ---- PlausibilitÑts-PrÅfungen ----
+            *               ---- PlausibilitÑts-PrÅfungen ----
 
             @ 0,2
             @ 0,2 SAY  "Es erfolgt die PlausibilitÑtsprÅfung"
@@ -279,7 +279,7 @@ PROCEDURE HW0110()
                EXIT
             ENDIF
 
-            //               ---- Aufbau SORTNAME ----
+            *               ---- Aufbau SORTNAME ----
 
             c_sortname = c_name
             n_i = 0
@@ -308,7 +308,7 @@ PROCEDURE HW0110()
                NEXT
             END DO
 
-            //               ---- PLAUSIBILIT?TSPR?FUNG (2) ----
+            *               ---- PLAUSIBILIT?TSPR?FUNG (2) ----
 
             n_neu = 0
             n_markerror = 0
@@ -345,7 +345,7 @@ PROCEDURE HW0110()
                EXIT
             ENDIF
 
-            //               ---- LETZTE ADRESS-NUMMER IN HW-ADRES ----
+            *               ---- LETZTE ADRESS-NUMMER IN HW-ADRES ----
 
             SELECT 1
             GO TOP
@@ -372,7 +372,7 @@ PROCEDURE HW0110()
                ENDIF
             ENDIF
 
-            //               ---- ABSPEICHERN ----
+            *               ---- ABSPEICHERN ----
 
             CLEAR
 
