@@ -1,17 +1,17 @@
 *
-****************************************************************************
+************************************************************************
 *
 *  PROGRAMMNAME:                  H W 0 1 0 0
 *
-* --------------------------------------------------------------------------
+* ----------------------------------------------------------------------
 *
 *  VERWENDETE DATEIEN              --- KEINE ---
 *
-*---------------------------------------------------------------------------
+*-----------------------------------------------------------------------
 *
 *  AUFGABE:  ADV-MENUE
 *
-*---------------------------------------------------------------------------
+*-----------------------------------------------------------------------
 *
 *  BESONDERHEITEN:    ES WERDEN LOGISCHE VARIABLE ALS PUBLIC ERKLAERT,
 *                     DAMIT DAS FOLGENDE AUSWAHLPROGRAMM FUER AENDERN,
@@ -19,32 +19,32 @@
 *                     BRAUCHT UND JE NACH INHALT DIESER VARIABLEN DIE
 *                     EIGENTLICHEN VERARBEITUNGSPROGRAMME AUFRUFEN KANN
 *
-*---------------------------------------------------------------------------
+*-----------------------------------------------------------------------
 *
-*  ABLAUF :           MAIN-LOOP BIS <F1>
-*                     AUFRUF DER VERARBEITUNGSPROGRAMME JE NACH AUSWAHL
-*---------------------------------------------------------------------------
+*    ABLAUF:    MAIN-LOOP BIS <F1>
+*               AUFRUF DER VERARBEITUNGSPROGRAMME JE NACH AUSWAHL
+*
+*-----------------------------------------------------------------------
 *
 * VERWENDETE MASKEN:        H W 0 1 0 0 F 1  (IM PROGRAMM)
 *
-*---------------------------------------------------------------------------
+*-----------------------------------------------------------------------
 *
 * RUFT AUF :               H W 0 1 1 0 (ERFASSEN HANDWERKERADRESSE)
 *                          H W 0 1 2 0 (ANZEIGEN HW-ADRESSEN)
 *                          H W 0 1 3 0 (ÃƒNDERN HW-ADRESSEN)
-*                          H W 0 1 $ 0 (PROFILAUSWAHL)
-*---------------------------------------------------------------------------
+*                          H W 0 1 4 0 (PROFILAUSWAHL)
+*-----------------------------------------------------------------------
 *
 
-*--------------------------------------------------------------------------*
+*----------------------------------------------------------------------*
 * Initialisierungen
-*--------------------------------------------------------------------------*
-PROCEDURE MAIN()
-
+*----------------------------------------------------------------------*
+* PROCEDURE MAIN()
 * Alle offenen Dateien schlieÃŸen
 CLEAR ALL
 
-* Setzen der Arbei tsumgebung
+* Setzen der Arbeitsumgebung
 SET DATE GERMAN
 SET BELL OFF
 SET MENU OFF
@@ -64,14 +64,15 @@ SET KEY -7 TO F8_KEY
 SET KEY -8 TO F9_KEY
 SET KEY -9 TO HELPMASK
 
-*--------------------------------------------------------------------------*
+*----------------------------------------------------------------------*
 * Globale Variablen definieren + initialisieren
-*--------------------------------------------------------------------------*
+*----------------------------------------------------------------------*
 
 PUBLIC m_map,l_map,m_hmap,l_hmap
 PUBLIC m_rahmen,l_rahmen,m_help_map,l_help_map
 PUBLIC f_key,f_keytext
 PUBLIC n_int_key,n_map
+PUBLIC c_errortext
 PUBLIC LSHOW,LCHANGE,LDELETE,LRETMEN,LINTNR,LNAME
 PUBLIC PNAME,c_nachname,n_zwstnr,c_zwstname,n_psnr
 
@@ -81,7 +82,7 @@ DECLARE f_key[10],f_keytext[30]
 STORE .F. TO l_rahmen
 STORE .F. TO l_help_map
 
-FOR i = 1 TO 20
+FOR i = 1 TO 25
   STORE .F. TO l_map[i]
   STORE .F. TO l_hmap[i]
 NEXT
@@ -99,38 +100,35 @@ f_keytext[29] = "Bedeutung der Funktionstasten"
 *--------------------------------------------------------------------------*
 * Indexdateien aufbauen, falls notig
 *--------------------------------------------------------------------------*
-IF .NOT. FILE("AA-SUP0I.NTX")
-  USE AACODE
-  INDEX ON FUNKTION+CODE1 TO AA-SUP01
-  USE
+
+IF .NOT. FILE("AASUP01.NTX")
+   USE AACODE
+   INDEX ON FUNKTION+CODE1 TO AASUP01
+   USE
 ENDIF
 
-// IF .NOT. FILE("HW-SUP01.NTX")
-//   USE HW-ADRES
-//   INDEX ON NAME+VORNAME+STR(PLZ,4) TO HW-SUP01
-//   USE
-// ENDIF
+IF .NOT. FILE("HWSUP01.NTX")
+   USE HWADRES
+   INDEX ON NAME+VORNAME+STR(PLZ,4) TO HWSUP01
+   USE
+ENDIF
 
-// IF .NOT. FILE("HW-SUP02.NTX")
-//   USE HW-ADRES
-//   INDEX ON STR(PLZ,4)+STR(ADRNR,7) TO HW-SUP02
-//   USE
-// ENDIF
+IF .NOT. FILE("HWSUP02.NTX")
+   USE HWADRES
+   INDEX ON STR(PLZ,4)+STR(ADRNR,7) TO HWSUP02
+   USE
+ENDIF
 
-*--------------------------------------------------------------------------*
+*----------------------------------------------------------------------*
 * MEM-Dateien lesen
-*--------------------------------------------------------------------------*
+*----------------------------------------------------------------------*
 
 RESTORE FROM QFILIALE  ADDITIVE
 RESTORE FROM ZBENUTZ   ADDITIVE
 
-****************************************************************************
-*          B E G I N   D E S   H A U P T P R o G R A M M S                 *
-****************************************************************************
-// STORE "1" TO QZWSTNR
-// STORE "Landshut" TO QZWSTNAME
-// STORE 1 TO UPSNR
-// STORE "Merck" TO UNACHNAME
+************************************************************************
+*          B E G I N   D E S   H A U P T P R o G R A M M S             *
+************************************************************************
 
 n_zwstnr = VAL(QZWSTNR)
 c_zwstname = QZWSTNAME
@@ -143,18 +141,16 @@ DO WHILE .T.
    CLEAR
    PTITEL = "HAUPTMENU HANDWERKER-ADRESSEN"
    PNAME = "HW0100"
-   FUSS = '****************   Wï¿½hlen Sie bitte aus !    ******************** '
+   FUSS = '****************   Wï„hlen Sie bitte aus !    ******************** '
    RAHM(PTITEL,PNAME,FUSS)
    @05,16 SAY CHR(218)+REPLICATE(CHR(196),42)+CHR(191)
-   //@05,16 SAY '+------------------------------------------+ '
    @06,16 SAY CHR(179)+'                                          '+CHR(179)
    @07,16 SAY CHR(179)+'    HANDWERKER - ADRESSENVERWALTUNG       '+CHR(179)
    @08,16 SAY CHR(179)+'                                          '+CHR(179)
    @09,16 SAY CHR(192)+REPLICATE(CHR(196),42)+CHR(217)
-   //@09,16 SAY '+------------------------------------------+ '
    @12,21 PROMPT 'Neuanlage Handwerker Adressen'
    @13,21 PROMPT 'Anzeigen Handwerker Adressen'
-   @14,21 PROMPT 'ï¿½ndern/Lï¿½schen Handwerker Adressen'
+   @14,21 PROMPT 'Žndern/L”schen Handwerker Adressen'
    @15,21 PROMPT 'Profilauswahl Handwerker Adressen'
    @18,21 SAY '<F1> = Bearbeitung beenden '
    @0,02 SAY FEHLER
