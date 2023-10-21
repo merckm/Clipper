@@ -1,99 +1,150 @@
-*
-****************************************************************************
-*
-*  PROGRAMMNAME:                  H W 0 1 1 0
-*
-* --------------------------------------------------------------------------
-*
-*  VERWENDETE DATEIEN              AA-CODE
-*                                  HW-ADRES
-*
-*---------------------------------------------------------------------------
-*
-*  AUFGABE:  Neuanlegen Handwerker-Adressen
-*
-*---------------------------------------------------------------------------
-*
-* VERWENDETE MASKEN:        H W 0 1 1 0 F 1  (IM PROGRAMM)
-*
-*---------------------------------------------------------------------------
-*
+* Program.: HW0110.PRG
+* Author..: ULRICH SCHWEIER
+***************************************************************************
+* Erstellt am : 25. August 1987
+* GeÑndert am : 99. XXXXXX 9999    durch :
+***************************************************************************
+* Notiz...:
+***************************************************************************
+* Bemerk..:
+* Bemerk..:                        HANDWERKER - ADRESSEN
+* Bemerk..:
+***************************************************************************
+* Bemerk..: NEUANLEGEN HANDWERKER-ADRESSEN
+***************************************************************************
+* Bemerk..: VERWENDETE DBASE DBF(DBT) : AA-CODE .DBF
+* Bemerk..:                             HW-ADRES.DBF
+***************************************************************************
 
+
+PROCEDURE HW0110()
 *--------------------------------------------------------------------------*
 * Initialisierungen
 *--------------------------------------------------------------------------*
-PROCEDURE HW0110()
 
-   PNAME = "HW0110"
+* Alle offenen Dateien schlie·wn
 
-   STORE 0000000   TO n_adrnr
-   STORE SPACE(1)  TO c_status
-   STORE 00000     TO n_krednr
-   STORE 000       TO n_gk1
-   STORE 000       TO n_ggk1
-   STORE 000       TO n_gk2
-   STORE 000       TO n_ggk2
-   STORE 000       TO n_gk3
-   STORE 000       TO n_ggk3
-   STORE SPACE(1)  TO c_anrede
-   STORE SPACE(1)  TO c_titel
-   STORE SPACE(30) TO c_firma
-   STORE SPACE(30) TO c_firma1
-   STORE SPACE(30) TO c_name
-   STORE SPACE(30) TO c_name1
-   STORE SPACE(15) TO c_vorname
-   STORE SPACE(15) TO c_vorname1
-   STORE SPACE(30) TO c_strasse
-   STORE SPACE(30) TO c_strasse1
-   STORE 0000      TO n_plz
-   STORE SPACE(34) TO c_ort
-   STORE SPACE(34) TO c_ort1
-   STORE 00000     TO n_telvw
-   STORE SPACE(5)  TO c_telvw
-   STORE 000000000 TO n_teldw
-   STORE SPACE(9)  TO c_teldw
-   STORE SPACE(49) TO c_info
-   STORE SPACE(12) TO c_sortname
+PNAME = "HW0110"
 
-   STORE 00000000 TO n_datn
-   STORE 00       TO n_i
-   STORE 00       TO n_k
-   STORE 00       TO n_k0
-   STORE 00       TO n_k1
-   STORE SPACE(1) TO c_char
-   STORE SPACE(11) TO c_rest
-   STORE SPACE(11) TO c_begin
-   STORE SPACE(11) TO c_beginelse
-   STORE 0000     TO n_zaehler
-   STORE 0        TO n_neu
-   STORE 00       TO n_mark
-   STORE 00       TO n_markerror
-   STORE SPACE(79) TO c_errortext
-   STORE SPACE(10) TO c_aasub01
-   STORE SPACE(2)  TO c_b
-   STORE 999      TO n_betrag
-   STORE 0        TO n_exiter
-   STORE 0        TO n_zeigegewerk
-   STORE 000      TO n_vergleicher
-   STORE 0        TO n_kleinster
-   STORE 0        TO n_isteiner
+STORE 0000000   TO n_adrnr
+STORE SPACE(1)  TO c_status
+STORE 00000     TO n_krednr
+STORE 000       TO n_gk1
+STORE 000       TO n_ggk1
+STORE 000       TO n_gk2
+STORE 000       TO n_ggk2
+STORE 000       TO n_gk3
+STORE 000       TO n_ggk3
+STORE SPACE(1)  TO c_anrede
+STORE SPACE(1)  TO c_titel
+STORE SPACE(30) TO c_firma
+STORE SPACE(30) TO c_firma1
+STORE SPACE(30) TO c_name
+STORE SPACE(30) TO c_name1
+STORE SPACE(15) TO c_vorname
+STORE SPACE(15) TO c_vorname1
+STORE SPACE(30) TO c_strasse
+STORE SPACE(30) TO c_strasse1
+STORE 0000      TO n_plz
+STORE SPACE(34) TO c_ort
+STORE SPACE(34) TO c_ort1
+STORE 00000     TO n_telvw
+STORE SPACE(5)  TO c_telvw
+STORE 000000000 TO n_teldw
+STORE SPACE(9)  TO c_teldw
+STORE SPACE(49) TO c_info
+STORE SPACE(12) TO c_sortname
 
-   SELECT 1
-   USE HW-ADRESS
+STORE 00000000 TO n_datn
+STORE 00       TO n_i
+STORE 00       TO n_k
+STORE 00       TO n_k0
+STORE 00       TO n_k1
+STORE SPACE(1) TO c_char
+STORE SPACE(11) TO c_rest
+STORE SPACE(11) TO c_begin
+STORE SPACE(11) TO c_beginelse
+STORE 0000     TO n_zaehler
+STORE 0        TO n_neu
+STORE 00       TO n_mark
+STORE 00       TO n_markerror
+STORE SPACE(79) TO c_errortext
+STORE SPACE(10) TO c_aasub01
+STORE SPACE(2)  TO c_b
+STORE 999      TO n_betrag
+STORE 0        TO n_exiter
+STORE 0        TO n_zeigegewerk
+STORE 000      TO n_vergleicher
+STORE 0        TO n_kleinster
+STORE 0        TO n_isteiner
 
-   SELECT 2
-     USE aacode INDEX aasup01
+SELECT 1
+   USE HWADRESS
 
-   *--------------------------------------------------------------------------*
-   * Programm z.B.  : Menue auf dem Bildschirm ausgeben
-   *--------------------------------------------------------------------------*
+SELECT 2
+   USE aacode INDEX aasup01
 
+*--------------------------------------------------------------------------*
+* Programm z.B.  : Menue auf dem Bildschirm ausgeben
+*--------------------------------------------------------------------------*
+
+n_map = 1
+
+FOR n_i = 3 TO 27
+   STORE SPACE(30) TO f_keytext[n_i] 
+NEXT
+
+* Funktionstasten belegen
+
+f_key[2] = "ZURöCK "
+f_key[3] = "       "
+f_key[4] = "       "
+f_key[5] = "       "
+f_key[6] = "       "
+f_key[7] = " TITEL "
+f_key[8] = "ANREDE "
+f_key[9] = "GEWERKE"
+f_key[10] = " HELP  "
+
+f_keytext[2] = " Beendet das Programm !"
+f_keytext[5] = " ZurÅck zum Hauptmenue !"
+f_keytext[20] = " Zeigt zulÑssige Titel!"
+f_keytext[23] = " Zeigt zulÑssige Anreden!"
+f_keytext[26] = " ZulÑssige Gewerke anzeigen!"
+
+IF .NOT. l_map[n_map] = .T.
+
+   CLEAR
+
+   DO RAHMEN WITH "ERFASSEN - HANDWERKER"
+   @ 5,30 SAY "STATUS :     ('L'=LôSCHEN; ' '=AKTIV;)"
+   @ 6,3  SAY "KREDITOREN-NR:"
+   @ 6,30 SAY "GEWERK 1 bis 3 :"
+   @ 7,1 TO 7,78
+   @ 9,3  SAY "ANREDE:"
+   @ 9,20 SAY "('D'=FIRMA)"
+   @ 9,33 SAY "TITEL:"
+   @ 10,3 SAY "FIRMEN-NAME:"
+   @ 11,3 SAY "NAME:"
+   @ 12,3 SAY "VORNAME:"
+   @ 13,3 SAY "STRASSE:"
+   @ 14,3 SAY "PLZ:"
+   @ 15,3 SAY "ORT:"
+   @ 16,3 SAY "TELEFON:"
+   @ 16,24 SAY "/:"
+   @ 17,3 SAY "INFORMATION:"
+   SAVE SCREEN TO m_map[n_map]
+   l_map[n_map] = .T.
+ELSE
+   RESTORE SCREEN FROM m_map[n_map]
+ENDIF
+
+DO WHILE .T.
    n_map = 1
-
    FOR n_i = 3 TO 27
       STORE SPACE(30) TO f_keytext[n_i] 
    NEXT
-
+   
    * Funktionstasten belegen
    f_key[2] = "ZURöCK "
    f_key[3] = "       "
@@ -103,365 +154,318 @@ PROCEDURE HW0110()
    f_key[7] = " TITEL "
    f_key[8] = "ANREDE "
    f_key[9] = "GEWERKE"
-   f_key[9] = " HELP  "
-
+   f_key[10] = " HELP  "
+   
    f_keytext[2] = " Beendet das Programm !"
    f_keytext[5] = " ZurÅck zum Hauptmenue !"
    f_keytext[20] = " Zeigt zulÑssige Titel!"
    f_keytext[23] = " Zeigt zulÑssige Anreden!"
    f_keytext[26] = " ZulÑssige Gewerke anzeigen!"
+   
+   RESTORE SCREEN FROM m_map[n_map]
 
-   IF .NOT. l_map[n_map] = .T.
+   @ 5,40 GET c_status PICTURE "!"
+   @ 6,18 GET c_krednr PICTURE "99999"
+   @ 6,46 GET c_gk1 PICTURE "999"
+   @ 6,50 GET c_gk2 PICTURE "999"
+   @ 6,54 GET c_gk3 PICTURE "999"
+   @ 9,18 GET c_anrede PICTURE "!"
+   @ 9,40 GET c_titel PICTURE "!"
+   @ 10,18 GET c_firma PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+   @ 11,18 GET c_name PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+   @ 12,18 GET c_vorname PICTURE "!XXXXXXXXXXXXXX"
+   @ 13,18 GET c_strasse PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+   @ 14,18 GET n_plz PICTURE "99999"
+   @ 15,18 GET c_ort PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+   @ 16,18 GET c_telvw PICTURE "99999"
+   @ 16,26 GET c_teldw PICTURE "999999999"
+   @ 16,26 GET c_info
 
-      CLEAR
+   IF c_errortext <> " "
+      @ 0,0
+      @ 0,2 SAY c_errortext
+   ENDIF
 
-      DO RAHMEN WITH "ERFASSEN - HANDWERKER"
-      @ 5,30 SAY "STATUS :     ('L'=LôSCHEN; ' '=AKTIV;)"
-      @ 6,3  SAY "KREDITOREN-NR:"
-      @ 6,30 SAY "GEWERK 1 bis 3 :"
-      @ 7,1 TO 7,78
-      @ 9,3  SAY "ANREDE:"
-      @ 9,20 SAY "('D'=FIRMA)"
-      @ 9,33 SAY "TITEL:"
-      @ 10,3 SAY "FIRMEN-NAME:"
-      @ 11,3 SAY "NAME:"
-      @ 12,3 SAY "VORNAME:"
-      @ 13,3 SAY "STRASSE:"
-      @ 14,3 SAY "PLZ:"
-      @ 15,3 SAY "ORT:"
-      @ 16,3 SAY "TELEFON:"
-      @ 16,24 SAY "/:"
-      @ 17,3 SAY "INFORMATION:"
-      SAVE SCREEN TO m_map[n_map]
-      l_map[n_map] = .T.
-   ELSE
-      RESTORE SCREEN FROM m_map[n_map]
+   c_errortext = " "
+   n_int_key = 0
+   @ 3,71 SAY TIME()
+
+   READ
+
+   @ 0,0 CLEAR TO 0,79
+
+   FOR n_i = 2 TO 9
+      IF ( n_int_key = n_i .AND. LEN(TRIM(f_key[n_i])) = 0)
+         c_errortext = "FEHLER: Funktionstaste wird nicht unterst?tzt"
+         n_markerror = 1
+         LOOP
+      ENDIF
+   NEXT
+
+   IF n_int_key = 2
+      RETURN
+   ENDIF
+
+   IF n_int_key = 7
+      DO ZEIGETITEL
+      LOOP
+   ENDIF
+
+   IF n_int_key = 8
+      DO ZEIGEANREDE
+      LOOP
+   ENDIF
+
+   IF n_int_key = 9
+      DO ZEIGEGEWERK
+      LOOP
+   ENDIF
+
+   IF n_int_key = 10
+      LOOP
    ENDIF
 
    DO WHILE .T.
-      n_map = 1
-      FOR n_i = 3 TO 27
-         STORE SPACE(30) TO f_keytext[n_i] 
-      NEXT
-    
-      * Funktionstasten belegen
-      f_key[2] = "ZURöCK "
-      f_key[3] = "       "
-      f_key[4] = "       "
-      f_key[5] = "       "
-      f_key[6] = "       "
-      f_key[7] = " TITEL "
-      f_key[8] = "ANREDE "
-      f_key[9] = "GEWERKE"
-      f_key[9] = " HELP  "
-    
-      f_keytext[2] = " Beendet das Programm !"
-      f_keytext[5] = " ZurÅck zum Hauptmenue !"
-      f_keytext[20] = " Zeigt zulÑssige Titel!"
-      f_keytext[23] = " Zeigt zulÑssige Anreden!"
-      f_keytext[26] = " ZulÑssige Gewerke anzeigen!"
-    
-      RESTORE SCREEN FROM m_map[n_map]
+      c_firma1   = UPPER(c_firma)
+      c_name1    = UPPER(c_name)
+      c_vorname1 = UPPER(c_vorname)
+      c_strasse1 = UPPER(c_strasse)
+      c_ort1     = UPPER(c_ort)
 
-      @ 5,40 GET c_status PICTURE "!"
-      @ 6,18 GET c_krednr PICTURE "99999"
-      @ 6,46 GET c_gk1 PICTURE "999"
-      @ 6,50 GET c_gk2 PICTURE "999"
-      @ 6,54 GET c_gk3 PICTURE "999"
-      @ 7,1 TO 7,78
-      @ 9,18 GET c_anrede PICTURE "!"
-      @ 9,40 GET c_titel PICTURE "!"
-      @ 10,18 GET c_firma PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-      @ 11,18 GET c_name PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-      @ 12,18 GET c_vorname PICTURE "!XXXXXXXXXXXXXX"
-      @ 13,18 GET c_strasse PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-      @ 14,18 GET n_plz PICTURE "99999"
-      @ 15,18 GET c_ort PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-      @ 16,18 GET c_telvw PICTURE "99999"
-      @ 16,26 GET c_teldw PICTURE "999999999"
-      @ 16,26 GET c_info
+      c_firma    = c_firma1
+      c_name     = c_name1
+      c_vorname  = c_vorname1
+      c_strasse  = c_strasse1
+      c_ort      = c_ort1
 
-      IF c_errortext <> " "
-         @ 0,0
-         @ 0,2 SAY c_errortext
-      ENDIF
+      IF n_zeigegewerk = 1
+         n_zeigegewerk = 0
+         EXIT
+      ELSE
+         *               ---- PlausibilitÑts-PrÅfungen ----
 
-      c_errortext = " "
-      n_int_key = 0
-      @ 3,71 SAY TIME()
+         @ 0,2
+         @ 0,2 SAY  "Es erfolgt die PlausibilitÑtsprÅfung"
 
-      READ
-
-      @ 0,0 CLEAR TO 0,79
-
-      FOR n_i = 2 TO 9
-         IF ( n_int_key = n_i .AND. LEN(TRIM(f_key[n_i])) = 0)
-            c_errortext = "FEHLER: Funktionstaste wird nicht unterst?tzt"
-            n_markerror = 1
-            LOOP
-         ENDIF
-      NEXT
-
-      IF n_int_key = 2
-         RETURN
-      ENDIF
-
-      IF n_int_key = 7
-         DO ZEIGETITEL
-         LOOP
-      ENDIF
-
-      IF n_int_key = 8
-         DO ZEIGEANREDE
-         LOOP
-      ENDIF
-
-      IF n_int_key = 9
-         DO ZEIGEGEWERK
-         LOOP
-      ENDIF
-
-      IF n_int_key = 10
-         LOOP
-      ENDIF
-
-      DO WHILE .T.
-         c_firma1   = UPPER(c_firma)
-         c_name1    = UPPER(c_name)
-         c_vorname1 = UPPER(c_vorname)
-         c_strasse1 = UPPER(c_strasse)
-         c_ort1     = UPPER(c_ort)
-
-         c_firma    = c_firma1
-         c_name     = c_name1
-         c_vorname  = c_vorname1
-         c_strasse  = c_strasse1
-         c_ort      = c_ort1
-
-         IF n_zeigegewerk = 1
-            n_zeigegewerk = 0
+         DO STATUSPRUEFUNG
+         IF n_markerror <> 0
             EXIT
-         ELSE
+         ENDIF
 
-            *               ---- PlausibilitÑts-PrÅfungen ----
+         n_mode = 0
+         DO KREDNRPRUEFUNG WITH n_mode
+         IF n_markerror <> 0
+            EXIT
+         ENDIF
 
-            @ 0,2
-            @ 0,2 SAY  "Es erfolgt die PlausibilitÑtsprÅfung"
+         DO GEWERKPRUEFUNG
+         IF n_markerror <> 0
+            EXIT
+         ENDIF
 
-            DO STATUSPRUEFUNG
-            IF n_markerror <> 0
-               EXIT
-            ENDIF
+         DO NAMENSPRUEFUNG
+         IF n_markerror <> 0
+            EXIT
+         ENDIF
 
-            n_mode = 0
-            DO KREDNRPRUEFUNG WITH n_mode
-            IF n_markerror <> 0
-               EXIT
-            ENDIF
+         DO ADRESSPRUEFUNG
+         IF n_markerror <> 0
+            EXIT
+         ENDIF
 
-            DO GEWERKPRUEFUNG
-            IF n_markerror <> 0
-               EXIT
-            ENDIF
+         DO TELEFONPRUEFUNG
+         IF n_markerror <> 0
+            EXIT
+         ENDIF
 
-            DO NAMENSPRUEFUNG
-            IF n_markerror <> 0
-               EXIT
-            ENDIF
 
-            DO ADRESSPRUEFUNG
-            IF n_markerror <> 0
-               EXIT
-            ENDIF
+         *               ---- Aufbau SORTNAME ----
 
-            DO TELEFONPRUEFUNG
-            IF n_markerror <> 0
-               EXIT
-            ENDIF
-
-            *               ---- Aufbau SORTNAME ----
-
-            c_sortname = c_name
-            n_i = 0
-            DO WHILE AT(" ",(TRIM(c_sortname))) <> 0 .OR. n_i = 0
-               FOR n_i = 1 TO 20
-                  c_char = SUBSTR(c_sortname,n_i,1)
-                  c_rest = SUBSTR(c_sortname,n_i+1)
-                  c_begin = SUBSTR(c_sortname,1,n_i-1)
-                  c_beginelse = SUBSTR(c_sortname,1,n_i-1)
+         c_sortname = c_name
+         n_i = 0
+         DO WHILE AT(" ",(TRIM(c_sortname))) <> 0 .OR. n_i = 0
+            FOR n_i = 1 TO 20
+               c_char = SUBSTR(c_sortname,n_i,1)
+               c_rest = SUBSTR(c_sortname,n_i+1)
+               c_begin = SUBSTR(c_sortname,1,n_i-1)
+               c_beginelse = SUBSTR(c_sortname,1,n_i-1)
+               IF c_char$" "
+                  IF c_char$"?"
+                     c_sortname = c_beginelse+"AE"+c_rest
+                  ENDIF
+                  IF c_char$"?"
+                     c_sortname = c_beginelse+"OE"+c_rest
+                  ENDIF
+                  IF c_char$"?"
+                     c_sortname = c_beginelse+"UE"+c_rest
+                  ENDIF
                   IF c_char$" "
-                     IF c_char$"?"
-                        c_sortname = c_beginelse+"AE"+c_rest
-                     ENDIF
-                     IF c_char$"?"
-                        c_sortname = c_beginelse+"OE"+c_rest
-                     ENDIF
-                     IF c_char$"?"
-                        c_sortname = c_beginelse+"UE"+c_rest
-                     ENDIF
-                     IF c_char$" "
-                        c_sortname = c_begin+c_rest
-                     ENDIF
-                  ELSE
                      c_sortname = c_begin+c_rest
+                     n_i = n_i + 1
                   ENDIF
-               NEXT
-            END DO
+               ELSE
+                  c_sortname = c_begin+c_rest
+               ENDIF
+            NEXT
+         END DO
 
-            *               ---- PLAUSIBILIT?TSPR?FUNG (2) ----
+         *               ---- PLAUSIBILIT?TSPR?FUNG (2) ----
 
-            n_neu = 0
-            n_markerror = 0
-            SELECT 1
-            GO TOP
-            LOCATE FOR TRIM(SORTNAME) = TRIM(c_sortname)
-            IF FOUND()
-               DO WHILE .T.
-                  IF EOF()
-                     EXIT
-                  ENDIF
-                  IF TRIM(SORTNAME) = TRIM(c_sortname)
-                     IF PLZ = n_plz .AND. UPPER(STRASSE) = UPPER(c_strasse)
-                        n_markerror = 1
-                        c_errortext = "Adresse vorhanden,"+;
-                           " mit Gewerknummern:"+;
-                           STR(GEWERK1)+c_b+;
-                           STR(GEWERK2)+c_b+;
-                           STR(GEWERK3)+c_b
-                        KEYBOARD(REPLICATE(CHR(13),8))
-                        n_neu    = 1
-                        n_exiter = 1
-                        EXIT
-                     ELSE
-                        CONTINUE
-                     ENDIF
-                  ELSE
-                     EXIT
-                  ENDIF
-               ENDDO
-            ENDIF
-            IF n_exiter = 1
-               n_exiter = 0
-               EXIT
-            ENDIF
-
-            *               ---- LETZTE ADRESS-NUMMER IN HW-ADRES ----
-
-            SELECT 1
-            GO TOP
-            LOCATE FOR ADRNR = 0
-            IF FOUND() = .F.
-               GO BOT
-               n_adrnr = RECNO() + 1
-               APPEND BLANK
-               REPLACE ADRNR     WITH 0
-               REPLACE BERTADRNR WITH n_adrnr
-               EXIT
-            ELSE
-               n_adrnr = BERTADRNR + 1
-               n_bertadrnr = BERTADRNR + 1
-               DO BESTAETIGEN
-               IF n_exiter = 1
-                  n_exiter = 0
-                  n_markerror = 0
-                  c_errortext = " "
+         n_neu = 0
+         n_markerror = 0
+         SELECT 1
+         GO TOP
+         LOCATE FOR TRIM(SORTNAME) = TRIM(c_sortname)
+         IF FOUND()
+            DO WHILE .T.
+               IF EOF()
                   EXIT
                ENDIF
-               IF UPDATED()
-                  REPLACE BERTADRNR WITH n_bertadrnr
+               IF TRIM(SORTNAME) = TRIM(c_sortname)
+                  IF PLZ = n_plz .AND. UPPER(STRASSE) = UPPER(c_strasse)
+                     n_markerror = 1
+                     c_errortext = "Adresse vorhanden,"+;
+                        " mit Gewerknummern:"+;
+                        STR(GEWERK1)+c_b+;
+                        STR(GEWERK2)+c_b+;
+                        STR(GEWERK3)+c_b
+                     KEYBOARD(REPLICATE(CHR(13),8))
+                     n_neu    = 1
+                     n_exiter = 1
+                     EXIT
+                  ELSE
+                     CONTINUE
+                  ENDIF
+               ELSE
+                  EXIT
                ENDIF
-            ENDIF
-
-            *               ---- ABSPEICHERN ----
-
-            CLEAR
-
-            @ 10,30 SAY "Satznummer"
-            @ 10,41 SAY n_adrnr
-            @ 12,39 SAY "Abgespeichert !"
-            SELECT 1
-            SET INDEX TO HW-SUP01,HW-SUP02
-            APPEND BLANK
-
-            REPLACE ADRNR        WITH n_adrnr
-            REPLACE BERTADRNR        WITH n_bertadrnr
-            REPLACE KREDNR        WITH n_krednr
-            REPLACE GEWERK1        WITH n_gk1
-            REPLACE GEWERK2        WITH n_gk2
-            REPLACE GEWERK3        WITH n_gk3
-            REPLACE STATUS         WITH " "
-            REPLACE AENDDAT        WITH DATE()
-            REPLACE ANREDE         WITH c_anrede
-            REPLACE TITEL          WITH c_titel
-            REPLACE FIRMA          WITH c_firma
-            REPLACE NAME           WITH c_name
-            REPLACE SORTNAME       WITH c_sortname
-            REPLACE VORNAME        WITH c_vorname
-            REPLACE STRASSE        WITH c_strassee
-            REPLACE PLZ            WITH n_plz
-            REPLACE ORT            WITH c_ort
-            REPLACE TELVW          WITH c_telvw
-            REPLACE TELDW          WITH c_teldw
-            REPLACE INFO           WITH c_info
-            REPLACE KZUEBER        WITH "N"
-            SET INDEX TO
-
-            STORE 0000000   TO n_adrnr
-            STORE SPACE(1)  TO c_status
-            STORE 00000     TO n_krednr
-            STORE 000       TO n_gk1
-            STORE 000       TO n_ggk1
-            STORE 000       TO n_gk2
-            STORE 000       TO n_ggk2
-            STORE 000       TO n_gk3
-            STORE 000       TO n_ggk3
-            STORE " "       TO c_anrede
-            STORE SPACE(1)  TO c_titel
-            STORE SPACE(30) TO c_firma
-            STORE SPACE(30) TO c_firma1
-            STORE SPACE(30) TO c_name
-            STORE SPACE(30) TO c_name1
-            STORE SPACE(15) TO c_vorname
-            STORE SPACE(15) TO c_vorname1
-            STORE SPACE(30) TO c_strasse
-            STORE SPACE(30) TO c_strasse1
-            STORE 0000      TO n_plz
-            STORE SPACE(34) TO c_ort
-            STORE SPACE(34) TO c_ort1
-            STORE 00000     TO n_telvw
-            STORE SPACE(5)  TO c_telvw
-            STORE 000000000 TO n_teldw
-            STORE SPACE(9)  TO c_teldw
-            STORE SPACE(49) TO c_info
-            STORE SPACE(12) TO c_sortname
-   
-            STORE 00000000 TO n_datn
-            STORE 00       TO n_i
-            STORE 00       TO n_k
-            STORE 00       TO n_k0
-            STORE 00       TO n_k1
-            STORE SPACE(1) TO c_char
-            STORE SPACE(11) TO c_rest
-            STORE SPACE(11) TO c_begin
-            STORE SPACE(11) TO c_beginelse
-            STORE 0000     TO n_zaehler
-            STORE 0        TO n_neu
-            STORE 00       TO n_mark
-            STORE 00       TO n_markerror
-            STORE SPACE(79) TO c_errortext
-            STORE SPACE(10) TO c_aasub01
-            STORE 0        TO n_kleinster
-
-            INKEY(2)
-
-            CLEAR
+            ENDDO
+         ENDIF
+         IF n_exiter = 1
+            n_exiter = 0
             EXIT
-
          ENDIF
 
-      END DO
+         *               ---- LETZTE ADRESS-NUMMER IN HW-ADRES ----
+
+         SELECT 1
+         GO TOP
+         LOCATE FOR ADRNR = 0
+         IF FOUND() = .F.
+            GO BOT
+            n_adrnr = RECNO() + 1
+            APPEND BLANK
+            REPLACE ADRNR     WITH 0
+            REPLACE BERTADRNR WITH n_adrnr
+            EXIT
+         ELSE
+            n_adrnr = BERTADRNR + 1
+            n_bertadrnr = BERTADRNR + 1
+            DO BESTAETIGEN
+            IF n_exiter = 1
+               n_exiter = 0
+               n_markerror = 0
+               c_errortext = " "
+               EXIT
+            ENDIF
+            IF UPDATED()
+               REPLACE BERTADRNR WITH n_bertadrnr
+            ENDIF
+         ENDIF
+
+         *               ---- ABSPEICHERN ----
+
+         CLEAR
+
+         @ 10,30 SAY "Satznummer"
+         @ 10,41 SAY n_adrnr
+         @ 12,39 SAY "Abgespeichert !"
+         SELECT 1
+         SET INDEX TO HW-SUP01,HW-SUP02
+         APPEND BLANK
+
+         REPLACE ADRNR        WITH n_adrnr
+         REPLACE BERTADRNR    WITH n_bertadrnr
+         REPLACE KREDNR       WITH n_krednr
+         REPLACE GEWERK1      WITH n_gk1
+         REPLACE GEWERK2      WITH n_gk2
+         REPLACE GEWERK3      WITH n_gk3
+         REPLACE STATUS       WITH " "
+         REPLACE AENDDAT      WITH DATE()
+         REPLACE ANREDE       WITH c_anrede
+         REPLACE TITEL        WITH c_titel
+         REPLACE FIRMA        WITH c_firma
+         REPLACE NAME         WITH c_name
+         REPLACE SORTNAME     WITH c_sortname
+         REPLACE VORNAME      WITH c_vorname
+         REPLACE STRASSE      WITH c_strassee
+         REPLACE PLZ          WITH n_plz
+         REPLACE ORT          WITH c_ort
+         REPLACE TELVW        WITH c_telvw
+         REPLACE TELDW        WITH c_teldw
+         REPLACE INFO         WITH c_info
+         REPLACE KZUEBER      WITH "N"
+         SET INDEX TO
+
+
+         STORE 0000000   TO n_adrnr
+         STORE SPACE(1)  TO c_status
+         STORE 00000     TO n_krednr
+         STORE 000       TO n_gk1
+         STORE 000       TO n_ggk1
+         STORE 000       TO n_gk2
+         STORE 000       TO n_ggk2
+         STORE 000       TO n_gk3
+         STORE 000       TO n_ggk3
+         STORE " "       TO c_anrede
+         STORE SPACE(1)  TO c_titel
+         STORE SPACE(30) TO c_firma
+         STORE SPACE(30) TO c_firma1
+         STORE SPACE(30) TO c_name
+         STORE SPACE(30) TO c_name1
+         STORE SPACE(15) TO c_vorname
+         STORE SPACE(15) TO c_vorname1
+         STORE SPACE(30) TO c_strasse
+         STORE SPACE(30) TO c_strasse1
+         STORE 0000      TO n_plz
+         STORE SPACE(34) TO c_ort
+         STORE SPACE(34) TO c_ort1
+         STORE 00000     TO n_telvw
+         STORE SPACE(5)  TO c_telvw
+         STORE 000000000 TO n_teldw
+         STORE SPACE(9)  TO c_teldw
+         STORE SPACE(49) TO c_info
+         STORE SPACE(12) TO c_sortname
+         STORE 00000000 TO n_datn
+         STORE 00       TO n_i
+         STORE 00       TO n_k
+         STORE 00       TO n_k0
+         STORE 00       TO n_k1
+         STORE SPACE(1) TO c_char
+         STORE SPACE(11) TO c_rest
+         STORE SPACE(11) TO c_begin
+         STORE SPACE(11) TO c_beginelse
+         STORE 0000     TO n_zaehler
+         STORE 0        TO n_neu
+         STORE 00       TO n_mark
+         STORE 00       TO n_markerror
+         STORE SPACE(79) TO c_errortext
+         STORE SPACE(10) TO c_aasub01
+         STORE 0        TO n_kleinster
+
+         INKEY(2)
+
+         CLEAR
+         EXIT
+
+      ENDIF
 
    END DO
+
+
+
+
+END DO
    
 RETURN
 
@@ -476,6 +480,7 @@ PROCEDURE ZEIGEGEWERK
    SELECT 2
 
    IF .NOT. l_map[n_map]
+
 
       DECLARE c_gewerk[32],c_gew_te[32]
 
@@ -496,6 +501,7 @@ PROCEDURE ZEIGEGEWERK
          ENDIF
          SKIP
       ENDDO
+
 
       FOR n_i = 3 TO 27
          STORE SPACE(30) TO f_keytext[n_i]
@@ -566,6 +572,7 @@ PROCEDURE ZEIGEGEWERK
    IF LASTKEY() = 28
       DO ENDE
    ENDIF
+
 
 RETURN
 
@@ -756,6 +763,7 @@ RETURN
 *************************** ENDE GEWERKPRUEFUNG **********************
    
 
+
 PROCEDURE NAMENSPRUEFUNG
 **********************************************************************
 * Das Unterprogramm NAMENSPRUEFUNG prÅft die ANREDRL,VORNAME,NAME    *
@@ -782,6 +790,7 @@ DO WHILE .T.
       IF .NOT. FOUND()
          c_errortext = "ANREDE ungÅltig !                             "
          n_markerror = 1     
+         c_anrede1 = " "
          KEYBOARD(REPLICATE(CHR(13),5))
          EXIT
       ENDIF
@@ -804,7 +813,9 @@ ENDDO
 
 RETURN
 *************************** ENDE NAMENSPRUEFUNG **********************
-   
+
+
+
 
 PROCEDURE ADRESSPRUEFUNG
 **********************************************************************
@@ -850,8 +861,10 @@ DO WHILE .T.
 ENDDO
 
 RETURN
+
 *************************** ENDE ADRESSPRUEFUNG ******************
-   
+
+
 
 PROCEDURE TELEFONPRUEFUNG
 **********************************************************************
@@ -897,6 +910,7 @@ ENDDO
 
 *************************** ENDE TELEFONPRUEFUNG **********************
    
+
 
 PROCEDURE BESTAETIGEN
 ***********************************************************************

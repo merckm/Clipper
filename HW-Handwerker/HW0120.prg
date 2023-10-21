@@ -72,11 +72,11 @@ DECLARE n_array[500]
 * L™SCHEN DER SPEZIAL-DATEIEN
 
 SELECT 1
-   USE HW-ADRES
+   USE HWADRES
 SELECT 2
-   USE AA-CODE INDEX AA-SUP01
+   USE AACODE INDEX AASUP01
 SELECT 3
-   USE HW-ADRES INDEX HW-SUP01,HW-SUP02
+   USE HWADRES INDEX HWSUP01,HWSUP02
 
 *--------------------------------------------------------------------------*
 * Programm z.B.  : Menue auf dem Bildschirm ausgeben

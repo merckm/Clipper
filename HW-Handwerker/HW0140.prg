@@ -438,7 +438,7 @@ PROCEDURE ENDE
 **********************************************************************
 PARAMETERS p_name,p_line,p_var
 
-    CLOSE DATABASES
+CLOSE DATABASES
 
     SET MENU ON
     SET HEADING ON
@@ -446,6 +446,7 @@ PARAMETERS p_name,p_line,p_var
 
     CLEAR ALL
     CLEAR
+
     IF FILE("TEMP*.*")
         RUN ERASE TEMP*.*
     ENDIF
@@ -453,4 +454,5 @@ PARAMETERS p_name,p_line,p_var
     QUIT
 
 RETURN
+
 * EOF : HW0140.PRG
