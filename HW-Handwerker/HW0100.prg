@@ -40,7 +40,7 @@
 *----------------------------------------------------------------------*
 * Initialisierungen
 *----------------------------------------------------------------------*
-* PROCEDURE MAIN()
+PROCEDURE MAIN()
 * Alle offenen Dateien schließen
 CLEAR ALL
 
@@ -123,8 +123,8 @@ ENDIF
 * MEM-Dateien lesen
 *----------------------------------------------------------------------*
 
-RESTORE FROM QFILIALE  ADDITIVE
-RESTORE FROM ZBENUTZ   ADDITIVE
+RESTORE FROM QZWST   ADDITIVE
+RESTORE FROM USER    ADDITIVE
 
 ************************************************************************
 *          B E G I N   D E S   H A U P T P R o G R A M M S             *

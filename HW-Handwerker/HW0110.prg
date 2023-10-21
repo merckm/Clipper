@@ -79,7 +79,7 @@ STORE 0        TO n_kleinster
 STORE 0        TO n_isteiner
 
 SELECT 1
-   USE HWADRESS
+   USE HWADRES
 
 SELECT 2
    USE aacode INDEX aasup01
@@ -165,10 +165,10 @@ DO WHILE .T.
    RESTORE SCREEN FROM m_map[n_map]
 
    @ 5,40 GET c_status PICTURE "!"
-   @ 6,18 GET c_krednr PICTURE "99999"
-   @ 6,46 GET c_gk1 PICTURE "999"
-   @ 6,50 GET c_gk2 PICTURE "999"
-   @ 6,54 GET c_gk3 PICTURE "999"
+   @ 6,18 GET n_krednr PICTURE "99999"
+   @ 6,46 GET n_gk1 PICTURE "999"
+   @ 6,50 GET n_gk2 PICTURE "999"
+   @ 6,54 GET n_gk3 PICTURE "999"
    @ 9,18 GET c_anrede PICTURE "!"
    @ 9,40 GET c_titel PICTURE "!"
    @ 10,18 GET c_firma PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -492,7 +492,7 @@ PROCEDURE ZEIGEGEWERK
       SEEK "GEWERK   "
 
       n_i = 0
-      DO WHILE function = "GEWERK"
+      DO WHILE funktion = "GEWERK"
          n_i = n_i + 1
          c_gewerk[n_i] = SUBSTR(code1,1,3)
          c_gew_te[n_i] = kurztext

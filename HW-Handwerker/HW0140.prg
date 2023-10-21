@@ -17,9 +17,9 @@ IF .NOT. l_rahmen
     @ 2,79 SAY CHR(186)
     @ 3, 0 SAY CHR(186)
     @ 3,79 SAY CHR(186)
-    @ 1, 0 SAY CHR(204)
-    @ 1, 1 SAY REPLICATE(CHR(205),78)
-    @ 1,79 SAY CHR(185)
+    @ 4, 0 SAY CHR(204)
+    @ 4, 1 SAY REPLICATE(CHR(205),78)
+    @ 4,79 SAY CHR(185)
     I = 5
     DO WHILE I<22
         @ I, 0 SAY CHR(186)
@@ -27,12 +27,12 @@ IF .NOT. l_rahmen
         I = I + 1
     ENDDO
     @22,0 SAY CHR(204)
-    @22, 1 SAY REPLICATE(CHR(205),6)+CHR(207)
-    @22, 8 SAY REPLICATE(REPLICATE(CHR(205),7)+CHR(207),8)
+    @22, 1 SAY REPLICATE(CHR(205),6)+CHR(209)
+    @22, 8 SAY REPLICATE(REPLICATE(CHR(205),7)+CHR(209),8)
     @22,72 SAY REPLICATE(CHR(205),7)
     @22,79 SAY CHR(185)
-    @23,0 SAY CHR(204)
-    I = 5
+    @23,0 SAY CHR(186)
+    I = 7
     DO WHILE I<73
         @23, I SAY CHR(179)
         I = I + 8
@@ -47,7 +47,7 @@ IF .NOT. l_rahmen
     @ 2,10 SAY STR(n_zwstnr,3) PICTURE "999"
     @ 2,INT(40-LEN(TRIM(c_zwstname))/2) SAY c_zwstname
     @ 2,71 SAY DTOC(DATE())
-    @ 3,4 SAY SUBSTR(n_psnr,7,4)
+    @ 3,4 SAY SUBSTR(STR(n_psnr),7,4)
     @ 3,10 SAY c_nachname
     @ 3,71 SAY TIME( )
     
@@ -60,7 +60,7 @@ IF .NOT. l_rahmen
     ENDDO
     @22,74 SAY "F10"
     SET COLOR TO W/N
-    @2, 2 SAY "ENDE"
+    @23, 2 SAY "ENDE"
     l_rahmen = .T.
     SAVE SCREEN TO m_rahmen
 ELSE
@@ -167,18 +167,18 @@ IF .NOT. l_hmap[n_map]
     i = 3
     p = 0
     DO WHILE i < 20
-        @ i  ,8 SAY SUBSTR(f_keytest[p+1],1,30)
-        @ i+1,8 SAY SUBSTR(f_keytest[p+2],1,30)
-        @ i+2,8 SAY SUBSTR(f_keytest[p+3],1,30)
+        @ i  ,8 SAY SUBSTR(f_keytext[p+1],1,30)
+        @ i+1,8 SAY SUBSTR(f_keytext[p+2],1,30)
+        @ i+2,8 SAY SUBSTR(f_keytext[p+3],1,30)
         i = i + 4
         p = p + 6
     ENDDO
     i = 3
     p = 3
     DO WHILE i < 20
-        @ i  ,47 SAY SUBSTR(f_keytest[p+1],1,30)
-        @ i+1,47 SAY SUBSTR(f_keytest[p+2],1,30)
-        @ i+2,47 SAY SUBSTR(f_keytest[p+3],1,30)
+        @ i  ,47 SAY SUBSTR(f_keytext[p+1],1,30)
+        @ i+1,47 SAY SUBSTR(f_keytext[p+2],1,30)
+        @ i+2,47 SAY SUBSTR(f_keytext[p+3],1,30)
         i = i + 4
         p = p + 6
     ENDDO
@@ -290,18 +290,18 @@ IF .NOT. l_hmap[n_map]
     i = 3
     p = 0
     DO WHILE i < 20
-        @ i  ,8 SAY SUBSTR(f_keytest[p+1],1,30)
-        @ i+1,8 SAY SUBSTR(f_keytest[p+2],1,30)
-        @ i+2,8 SAY SUBSTR(f_keytest[p+3],1,30)
+        @ i  ,8 SAY SUBSTR(f_keytext[p+1],1,30)
+        @ i+1,8 SAY SUBSTR(f_keytext[p+2],1,30)
+        @ i+2,8 SAY SUBSTR(f_keytext[p+3],1,30)
         i = i + 4
         p = p + 6
     ENDDO
     i = 3
     p = 3
     DO WHILE i < 20
-        @ i  ,47 SAY SUBSTR(f_keytest[p+1],1,30)
-        @ i+1,47 SAY SUBSTR(f_keytest[p+2],1,30)
-        @ i+2,47 SAY SUBSTR(f_keytest[p+3],1,30)
+        @ i  ,47 SAY SUBSTR(f_keytext[p+1],1,30)
+        @ i+1,47 SAY SUBSTR(f_keytext[p+2],1,30)
+        @ i+2,47 SAY SUBSTR(f_keytext[p+3],1,30)
         i = i + 4
         p = p + 6
     ENDDO

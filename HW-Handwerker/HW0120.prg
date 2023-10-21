@@ -1,4 +1,4 @@
-PROCEDURE HW0110()
+*PROCEDURE HW0120()
 ****************************************************************************
 * PARAMETER šBERNAHME AUS HW0100
 PARAMETERS n_para
@@ -26,7 +26,7 @@ PARAMETERS n_para
 
 * Neue Variablen initialisieren -> c_variablen
 
-PNAME = "HW0110"
+PNAME = "HW0120"
 
 STORE SPACE(30)  TO c_hcnameausw
 STORE SPACE(30)  TO c_hcnameausw1
@@ -237,12 +237,12 @@ DO WHILE .T.
          IF n_hcplzvonausw > 0 .OR. n_hcplzbisausw > 0
             IF n_hcplzvonausw > 0 .AND. n_hcplzbisausw = 0
                c_errortext = "Bitte PLZ-BIS angeben !"
-               KEBOARD(REPLICATE(CHR(13),3))
+               KEYBOARD(REPLICATE(CHR(13),3))
                EXIT
             ENDIF
             IF n_hcplzvonausw = 0 .AND. n_hcplzbisausw > 0
                c_errortext = "Bitte PLZ-VON angeben !"
-               KEBOARD(REPLICATE(CHR(13),2))
+               KEYBOARD(REPLICATE(CHR(13),2))
                EXIT
             ENDIF
             IF n_hcplzvonausw > 0
@@ -258,7 +258,7 @@ DO WHILE .T.
             IF n_hcplzvonausw <> 0 .AND. n_hcplzbisausw <> 0
                IF n_hcplzvonausw > n_hcplzbisausw
                   c_errortext = "PLZ-Intervall falsch !"
-                  KEBOARD(REPLICATE(CHR(13),2))
+                  KEYBOARD(REPLICATE(CHR(13),2))
                   EXIT
                ENDIF
             ENDIF
@@ -268,17 +268,17 @@ DO WHILE .T.
          IF n_hcgkav > 0 .OR. n_hcgkab > 0
             IF n_hcgkav = 0
                c_errortext = "Bitte Gewerkvon eingeben !"
-               KEBOARD(REPLICATE(CHR(13),4))
+               KEYBOARD(REPLICATE(CHR(13),4))
                EXIT
             ENDIF
             IF n_hcgkab = 0
                c_errortext = "Bitte Gewerkbis eingeben !"
-               KEBOARD(REPLICATE(CHR(13),5))
+               KEYBOARD(REPLICATE(CHR(13),5))
                EXIT
             ENDIF
             IF n_hcgkav > n_hcgkab
                c_errortext = "Intervall falsch !"
-               KEBOARD(REPLICATE(CHR(13),4))
+               KEYBOARD(REPLICATE(CHR(13),4))
                EXIT
             ENDIF
             n_index1 = 4
@@ -829,7 +829,7 @@ DO WHILE .T.
       LOOP
    ENDIF
    IF n_int_key = 9
-      DO ZEIGGEWERK
+      DO ZEIGEGEWERK
       LOOP
    ENDIF
    IF n_int_key = 10
@@ -1007,7 +1007,7 @@ PROCEDURE AENDERUNG
          LOOP
       ENDIF
       IF n_int_key = 9
-         DO ZEIGGEWERK
+         DO ZEIGEGEWERK
          LOOP
       ENDIF
       IF n_int_key = 10
