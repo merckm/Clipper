@@ -79,7 +79,7 @@ STORE 0        TO n_kleinster
 STORE 0        TO n_isteiner
 
 SELECT 1
-   USE HWADRES
+   USE HWADRES SHARED
 
 SELECT 2
    USE aacode INDEX aasup01
@@ -131,8 +131,8 @@ IF .NOT. l_map[n_map] = .T.
    @ 14,3 SAY "PLZ:"
    @ 15,3 SAY "ORT:"
    @ 16,3 SAY "TELEFON:"
-   @ 16,24 SAY "/:"
-   @ 17,3 SAY "INFORMATION:"
+   @ 16,24 SAY "/"
+   @ 18,3 SAY "INFORMATION:"
    SAVE SCREEN TO m_map[n_map]
    l_map[n_map] = .T.
 ELSE
@@ -179,7 +179,7 @@ DO WHILE .T.
    @ 15,18 GET c_ort PICTURE "!XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
    @ 16,18 GET c_telvw PICTURE "99999"
    @ 16,26 GET c_teldw PICTURE "999999999"
-   @ 16,26 GET c_info
+   @ 18,18 GET c_info
 
    IF c_errortext <> " "
       @ 0,0
@@ -196,7 +196,7 @@ DO WHILE .T.
 
    FOR n_i = 2 TO 9
       IF ( n_int_key = n_i .AND. LEN(TRIM(f_key[n_i])) = 0)
-         c_errortext = "FEHLER: Funktionstaste wird nicht unterst?tzt"
+         c_errortext = "FEHLER: Funktionstaste wird nicht unterstÅ?tzt"
          n_markerror = 1
          LOOP
       ENDIF
@@ -287,21 +287,21 @@ DO WHILE .T.
             FOR n_i = 1 TO 20
                c_char = SUBSTR(c_sortname,n_i,1)
                c_rest = SUBSTR(c_sortname,n_i+1)
-               c_begin = SUBSTR(c_sortname,1,n_i-1)
+               c_begin = SUBSTR(c_sortname,1,n_i)
                c_beginelse = SUBSTR(c_sortname,1,n_i-1)
-               IF c_char$" "
-                  IF c_char$"?"
+               IF c_char$" éôö"
+                  IF c_char$"é"
                      c_sortname = c_beginelse+"AE"+c_rest
                   ENDIF
-                  IF c_char$"?"
+                  IF c_char$"ô"
                      c_sortname = c_beginelse+"OE"+c_rest
                   ENDIF
-                  IF c_char$"?"
+                  IF c_char$"ö"
                      c_sortname = c_beginelse+"UE"+c_rest
                   ENDIF
                   IF c_char$" "
-                     c_sortname = c_begin+c_rest
-                     n_i = n_i + 1
+                     c_sortname = c_beginelse+c_rest
+                     n_i = n_i - 1
                   ENDIF
                ELSE
                   c_sortname = c_begin+c_rest
@@ -352,9 +352,14 @@ DO WHILE .T.
          GO TOP
          LOCATE FOR ADRNR = 0
          IF FOUND() = .F.
-            GO BOT
+            GO BOTTOM
             n_adrnr = RECNO() + 1
             APPEND BLANK
+            IF (!LOCK())                           // Harbour addition
+               c_errortext = "Der Satz ist aktuell gesperrt,"+;
+                             " bitte spÑter probieren"
+               EXIT                                // Harbour addition
+            ENDIF                                  // Harbour addition
             REPLACE ADRNR     WITH 0
             REPLACE BERTADRNR WITH n_adrnr
             EXIT
@@ -368,6 +373,11 @@ DO WHILE .T.
                c_errortext = " "
                EXIT
             ENDIF
+            IF (!LOCK())                           // Harbour addition
+               c_errortext = "Der Satz ist aktuell gesperrt,"+;
+                             " bitte spÑter probieren"
+               EXIT                                // Harbour addition
+            ENDIF                                  // Harbour addition
             IF UPDATED()
                REPLACE BERTADRNR WITH n_bertadrnr
             ENDIF
@@ -377,11 +387,12 @@ DO WHILE .T.
 
          CLEAR
 
+
          @ 10,30 SAY "Satznummer"
          @ 10,41 SAY n_adrnr
          @ 12,39 SAY "Abgespeichert !"
          SELECT 1
-         SET INDEX TO HW-SUP01,HW-SUP02
+         SET INDEX TO HWSUP01,HWSUP02                 // Harbour change
          APPEND BLANK
 
          REPLACE ADRNR        WITH n_adrnr
@@ -398,7 +409,7 @@ DO WHILE .T.
          REPLACE NAME         WITH c_name
          REPLACE SORTNAME     WITH c_sortname
          REPLACE VORNAME      WITH c_vorname
-         REPLACE STRASSE      WITH c_strassee
+         REPLACE STRASSE      WITH c_strasse
          REPLACE PLZ          WITH n_plz
          REPLACE ORT          WITH c_ort
          REPLACE TELVW        WITH c_telvw
@@ -407,6 +418,7 @@ DO WHILE .T.
          REPLACE KZUEBER      WITH "N"
          SET INDEX TO
 
+         UNLOCK                                 // Harbour addition
 
          STORE 0000000   TO n_adrnr
          STORE SPACE(1)  TO c_status
@@ -523,7 +535,7 @@ PROCEDURE ZEIGEGEWERK
       
       CLEAR
 
-      DO RAHMEN WITH "   Zul?ssige Gewerknummern   "
+      DO RAHMEN WITH "   ZulÑssige Gewerknummern   "
 
       @5,4   SAY c_gewerk[1]+" "+c_gew_te[1]
       @5,42  SAY c_gewerk[2]+" "+c_gew_te[2]
@@ -614,7 +626,7 @@ c_errortext = " "
 SELECT 1
 GO TOP
 IF n_krednr <> 0
-   LOCATE FOR KREDNR = m_krednr
+   LOCATE FOR KREDNR = n_krednr
    IF FOUND() = .T.
       IF n_mode = 0 .OR. n_mode # RECNO()
          n_markerror = 1
@@ -663,10 +675,10 @@ IF n_gk1 > 0 .OR. n_gk2 > 0 .OR. n_gk3 > 0
             CASE n_kleinster = 1
                STORE n_betrag  TO n_ggk1
                STORE 0         TO n_gk1
-            CASE n_k = 2
+            CASE n_kleinster = 2
                STORE n_betrag  TO n_ggk1
                STORE 0         TO n_gk2
-            CASE n_k = 3
+            CASE n_kleinster = 3
                STORE n_betrag  TO n_ggk1
                STORE 0         TO n_gk3
          ENDCASE
@@ -676,10 +688,10 @@ IF n_gk1 > 0 .OR. n_gk2 > 0 .OR. n_gk3 > 0
             CASE n_kleinster = 1
                STORE n_betrag  TO n_ggk2
                STORE 0         TO n_gk1
-            CASE n_k = 2
+            CASE n_kleinster = 2
                STORE n_betrag  TO n_ggk2
                STORE 0         TO n_gk2
-            CASE n_k = 3
+            CASE n_kleinster = 3
                STORE n_betrag  TO n_ggk2
                STORE 0         TO n_gk3
          ENDCASE
@@ -689,10 +701,10 @@ IF n_gk1 > 0 .OR. n_gk2 > 0 .OR. n_gk3 > 0
             CASE n_kleinster = 1
                STORE n_betrag  TO n_ggk3
                STORE 0         TO n_gk1
-            CASE n_k = 2
+            CASE n_kleinster = 2
                STORE n_betrag  TO n_ggk3
                STORE 0         TO n_gk2
-            CASE n_k = 3
+            CASE n_kleinster = 3
                STORE n_betrag  TO n_ggk3
                STORE 0         TO n_gk3
          ENDCASE
@@ -749,7 +761,7 @@ IF c_errortext = " "
          IF n_isteiner = 0
             n_markerror = 1
             c_errortext = "Gewerk falsch ! ZulÑssige"+ ;
-                          "Gewewrknummern eingeben!"
+                          " Gewewrknummern eingeben!"
             KEYBOARD(REPLICATE(CHR(13),n_k+1))
             RETURN
          ELSE
@@ -833,7 +845,7 @@ DO WHILE .T.
       EXIT
    ENDIF
 
-   IF c_plz = 0
+   IF n_plz = 0
       c_errortext = "Bitte Postleitzahl eingeben !                "
       n_markerror = 1
       KEYBOARD(REPLICATE(CHR(13),11))
@@ -876,7 +888,7 @@ n_markerror = 0
 DO WHILE .T.
 
    IF c_telvw <> " "
-      b_telvw = VAL(c_telvw)
+      n_telvw = VAL(c_telvw)
       IF n_telvw < 10
          c_errortext = "VORWAHL falsch !                                "
          n_markerror = 1
@@ -885,7 +897,7 @@ DO WHILE .T.
       ENDIF
    ENDIF
    IF c_teldw <> " "
-      b_teldw = VAL(c_teldw)
+      n_teldw = VAL(c_teldw)
       IF n_teldw < 10
          c_errortext = "DURCHWAHL falsch !                                "
          n_markerror = 1
@@ -943,8 +955,9 @@ c_errortext = "ENTER = bestÑtigen und abspeichern"
 n_map = 2
 
 IF .NOT. l_map[n_map]
+   CLEAR                                     // Bugfix
    @ 5,3 SAY "ADRESSEN-NR :"
-   @ 5,30 SAY "STATUS :     "
+   @ 5,30 SAY "STATUS      :"
    @ 5,50 SAY "( 'L'=LôSCHEN; ' '=AKTIV;)"
    @ 6,3  SAY "KREDITOREN-NR:"
    @ 6,30 SAY "GEWERK 1 bis 3 :"

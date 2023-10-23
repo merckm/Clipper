@@ -41,7 +41,7 @@ STORE SPACE(79)  TO c_errortext
 STORE 0              TO n_locate
 STORE 0000000        TO n_hcadrnrausw
 STORE 0000           TO n_hcplzvonausw
-STORE 0000           TO n_hcolzbisausw
+STORE 0000           TO n_hcplzbisausw
 STORE 000            TO n_hcgkav
 STORE 000            TO n_hcgkab
 STORE 00000          TO n_hckrednrausw
@@ -65,18 +65,18 @@ STORE 0              TO n_ggk3
 * ARRAY - AUFBAU
 
 DECLARE c_aname[10],c_avorname[10],n_aplz[10]
-DECLARE c_aort[10],c_agk1[10],c_agk2[10],c_agk3[10],c_aadrnr1[10]
+DECLARE c_aort[10],n_agk1[10],n_agk2[10],n_agk3[10],n_aadrnr[10]
 DECLARE c_auswahl[10]
 DECLARE n_array[500]
 
 * LôSCHEN DER SPEZIAL-DATEIEN
 
 SELECT 1
-   USE HWADRES
+   USE HWADRES ALIAS HWPLAIN SHARED                      // Changed for Harbour
 SELECT 2
-   USE AACODE INDEX AASUP01
+   USE AACODE INDEX AASUP01                              // Changed for Harbour
 SELECT 3
-   USE HWADRES INDEX HWSUP01,HWSUP02
+   USE HWADRES INDEX HWSUP01,HWSUP02 ALIAS HWIND SHARED  // Changed for Harbour
 
 *--------------------------------------------------------------------------*
 * Programm z.B.  : Menue auf dem Bildschirm ausgeben
@@ -168,7 +168,7 @@ DO WHILE .T.
       @ 7,18  GET n_hcadrnrausw PICTURE "9999999"
       @ 9,18  GET c_hcnameausw PICTURE "AXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
       @ 11,18 GET n_hcplzvonausw PICTURE "9999"
-      @ 11,29 GET n_hcplzvonausw PICTURE "9999"
+      @ 11,29 GET n_hcplzbisausw PICTURE "9999"
       @ 13,18 GET n_hcgkav PICTURE "999"
       @ 13,29 GET n_hcgkab PICTURE "999"
       @ 15,18 GET n_hckrednrausw PICTURE "99999"
@@ -188,7 +188,7 @@ DO WHILE .T.
 
       FOR n_i = 2 TO 10
          IF ( n_int_key = n_i .AND. LEN(TRIM(f_key[n_i])) = 0)
-            c_errortext = "FEHLER: Funktionstaste wird nicht unterst?tzt"
+            c_errortext = "FEHLER: Funktionstaste wird nicht unterstÅtzt"
             LOOP
          ENDIF
       NEXT
@@ -211,8 +211,8 @@ DO WHILE .T.
          LOOP
       ENDIF
 
-      n_hcadrnrausw1 = UPPER(n_hcadrnrausw)
-      n_hcadrnrausw = n_hcadrnrausw1
+      c_hcaameausw1 = UPPER(c_hcnameausw)
+      c_hcnameausw = c_hcnameausw1
 
 
 *                    ---- PlausibilitÑts-PrÅfungen ----
@@ -328,13 +328,13 @@ DO WHILE .T.
             ENDIF
             IF n_hcgkav <> 0
                n_k = 0
-               IF GEWERK1 < n_kvgkav .OR. GEWERK1 > n_hcgwab
+               IF GEWERK1 < n_hcgcvo .OR. GEWERK1 > n_hcgwab
                   n_k = n_k + 1
                ENDIF
-               IF GEWERK2 < n_kvgkav .OR. GEWERK2 > n_hcgwab
+               IF GEWERK2 < n_hcgcvo .OR. GEWERK2 > n_hcgwab
                   n_k = n_k + 1
                ENDIF
-               IF GEWERK3 < n_kvgkav .OR. GEWERK3 > n_hcgwab
+               IF GEWERK3 < n_hcgcvo .OR. GEWERK3 > n_hcgwab
                   n_k = n_k + 1
                ENDIF
                IF n_k = 3
@@ -355,20 +355,20 @@ DO WHILE .T.
                n_array[n_isn] = RECNO()
             ENDIF
 
-            IF n_num = 1
+            IF n_isn = 1
                @ 0,2 SAY "SYSTEM sucht, und findet     Satz !"
             ENDIF
-            IF n_num = 2
+            IF n_isn = 2
                @ 0,2 SAY "SYSTEM sucht, und findet     SÑtze !"
             ENDIF
-            IF n_num <= 500
+            IF n_isn <= 500
                @ 0,27 SAY n_isn PICTURE "999"
             ENDIF
-            IF n_num = 501
+            IF n_isn = 501
                @ 0,0
                @ 0,2 SAY "SYSTEM findet          SÑtze. Nur 500 SÑtze anzeigbar !"
             ENDIF
-            IF n_num > 500
+            IF n_isn > 500
                @ 0,16 SAY n_isn PICTURE "99999999"
             ENDIF
             SKIP
@@ -482,7 +482,7 @@ DO WHILE .T.
 
                FOR n_index1 = n_zeilevon TO n_zeilebis
                   n_index2 = n_index1 - n_zeilevon + 1
-                  IF n_index <= m_isn
+                  IF n_index1 <= n_isn
                      SELECT 3
                      n_goto = n_array[n_index1]
                      GO n_goto
@@ -523,7 +523,7 @@ DO WHILE .T.
                c_errortext = " "
             ENDIF
             FOR n_k = 1 TO 10
-               n_z = 9 + nk
+               n_z = 9 + n_k
                @n_z,2 GET c_auswahl[n_k]
             NEXT
             n_int_key = 0
@@ -531,9 +531,9 @@ DO WHILE .T.
             READ
             FOR n_k = 1 TO 10
                IF c_auswahl[n_k] <> " "
-                  n_index1 = n_k +n_zeilevon - 1
+                  n_index1 = n_k + n_zeilevon - 1
                   IF n_index1 > n_isn
-                     @ 0,2 SAY "Bitte keine leere Reihe ankreuzen !"
+                  @ 0,2 SAY "Bitte keine leere Reihe ankreuzen !"
                      INKEY(3)
                      LOOP
                   ENDIF
@@ -541,7 +541,7 @@ DO WHILE .T.
             NEXT       
             FOR n_i = 2 TO 10
                IF ( n_int_key = n_i .AND. LEN(TRIM(f_key[n_i])) = 0)
-                  c_errortext = "FEHLER: Funktionstaste wird nicht unterst?tzt"
+                  c_errortext = "FEHLER: Funktionstaste wird nicht unterstÅtzt"
                   LOOP
                ENDIF
             NEXT
@@ -615,7 +615,7 @@ PROCEDURE SORTNAME
          c_rest  = SUBSTR(c_sortname,n_i+1)
          c_begin = SUBSTR(c_sortname,1,n_i)
          c_beginelse = SUBSTR(c_sortname,1,n_i-1)
-         IF c_char$" "
+         IF c_char$" éôö"
             IF c_char$"é"
                c_sorname = c_beginelse+"AE"+c_rest
             ENDIF
@@ -812,7 +812,7 @@ DO WHILE .T.
 
    FOR n_i = 2 TO 10
       IF ( n_int_key = n_i .AND. LEN(TRIM(f_key[n_i])) = 0)
-         c_errortext = "FEHLER: Funktionstaste wird nicht unterst?tzt"
+         c_errortext = "FEHLER: Funktionstaste wird nicht unterstÅtzt"
          LOOP
       ENDIF
    NEXT
@@ -968,7 +968,7 @@ PROCEDURE AENDERUNG
    
       FOR n_i = 2 TO 10
          IF ( n_int_key = n_i .AND. LEN(TRIM(f_key[n_i])) = 0)
-            c_errortext = "FEHLER: Funktionstaste wird nicht unterst?tzt"
+            c_errortext = "FEHLER: Funktionstaste wird nicht unterstÅtzt"
             LOOP
          ENDIF
       NEXT
@@ -1072,7 +1072,7 @@ PROCEDURE AENDERUNG
             c_rest  = SUBSTR(c_sortname,n_i+1)
             c_begin = SUBSTR(c_sortname,1,n_i)
             c_beginelse = SUBSTR(c_sortname,1,n_i-1)
-            IF c_char$" "
+            IF c_char$" éôö"
                IF c_char$"é"
                   c_sorname = c_beginelse+"AE"+c_rest
                ENDIF

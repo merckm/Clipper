@@ -44,6 +44,10 @@ PROCEDURE MAIN()
 * Alle offenen Dateien schlie√üen
 CLEAR ALL
 
+*SETMODE ( 25, 80 )
+SET CURSOR OFF
+*SETCOLOR ( "W+/B, GR+/R, N, GR+/N, GR+/R" )
+
 * Setzen der Arbeitsumgebung
 SET DATE GERMAN
 SET BELL OFF
@@ -141,7 +145,7 @@ DO WHILE .T.
    CLEAR
    PTITEL = "HAUPTMENU HANDWERKER-ADRESSEN"
    PNAME = "HW0100"
-   FUSS = '****************   WÔÑhlen Sie bitte aus !    ******************** '
+   FUSS = '****************   WÑhlen Sie bitte aus !    ******************** '
    RAHM(PTITEL,PNAME,FUSS)
    @05,16 SAY CHR(218)+REPLICATE(CHR(196),42)+CHR(191)
    @06,16 SAY CHR(179)+'                                          '+CHR(179)
