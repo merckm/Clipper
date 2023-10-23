@@ -1,6 +1,10 @@
-*.exe
-*.pdf
-*.txt
-*.dbf
-*.dbt
-*.mem
+**/*.exe
+**/*.pdf
+**/*.txt
+**/*.dbf
+**/*.dbt
+**/*.mem
+**/*.ntx
+**/*.log
+**/Test.*
+**/AACODE.*
