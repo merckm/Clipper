@@ -1,4 +1,3 @@
-*PROCEDURE HW0120()
 ****************************************************************************
 * PARAMETER šBERNAHME AUS HW0100
 PARAMETERS n_para

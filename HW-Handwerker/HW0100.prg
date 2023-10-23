@@ -40,7 +40,7 @@
 *----------------------------------------------------------------------*
 * Initialisierungen
 *----------------------------------------------------------------------*
-PROCEDURE MAIN()
+PROCEDURE MAIN()                    // Adaption for Harbour
 * Alle offenen Dateien schließen
 CLEAR ALL
 
