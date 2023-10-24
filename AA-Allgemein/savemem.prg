@@ -9,7 +9,7 @@ SAVE TO QFILIALE
 RELEASE ALL
 
 STORE 1                    TO ZPSNR
-STORE "KRIEGER"            TO ZNAME
+STORE "MERCK"              TO ZNAME
 STORE "08"                 TO ZTAETIG
 
 SAVE TO ZBENUTZ
