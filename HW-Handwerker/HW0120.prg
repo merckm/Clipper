@@ -73,7 +73,7 @@ DECLARE n_array[500]
 SELECT 1
    USE HWADRES ALIAS HWPLAIN SHARED                      // Changed for Harbour
 SELECT 2
-   USE AACODE INDEX AASUP01                              // Changed for Harbour
+   USE AACODE INDEX AASUP01 SHARED                       // Changed for Harbour
 SELECT 3
    USE HWADRES INDEX HWSUP01,HWSUP02 ALIAS HWIND SHARED  // Changed for Harbour
 
@@ -509,12 +509,12 @@ DO WHILE .T.
                   n_z = 9 + n_k
                   @ n_z,4  SAY c_aname[n_k]
                   @ n_z,24 SAY c_avorname[n_k]
-                  @ n_z,33 SAY n_aplz[n_k]
+                  @ n_z,33 SAY STR(n_aplz[n_k],4)
                   @ n_z,38 SAY c_aort[n_k]
-                  @ n_z,58 SAY n_agk1[n_k]
-                  @ n_z,62 SAY n_agk2[n_k]
-                  @ n_z,66 SAY n_agk3[n_k]
-                  @ n_z,70 SAY n_aadrnr[n_k]
+                  @ n_z,58 SAY STR(n_agk1[n_k],3)
+                  @ n_z,62 SAY STR(n_agk2[n_k],3)
+                  @ n_z,66 SAY STR(n_agk3[n_k],3)
+                  @ n_z,70 SAY STR(n_aadrnr[n_k],7)
                NEXT
             IF c_errortext <> " "
                @ 0,0
@@ -616,20 +616,20 @@ PROCEDURE SORTNAME
          c_beginelse = SUBSTR(c_sortname,1,n_i-1)
          IF c_char$" Ž™š"
             IF c_char$"Ž"
-               c_sorname = c_beginelse+"AE"+c_rest
+               c_sortname = c_beginelse+"AE"+c_rest
             ENDIF
             IF c_char$"™"
-               c_sorname = c_beginelse+"OE"+c_rest
+               c_sortname = c_beginelse+"OE"+c_rest
             ENDIF
             IF c_char$"š"
-               c_sorname = c_beginelse+"UE"+c_rest
+               c_sortname = c_beginelse+"UE"+c_rest
             ENDIF
             IF c_char$" "
-               c_sorname = c_beginelse+c_rest
+               c_sortname = c_beginelse+c_rest
                n_i = n_i - 1
             ENDIF
          ELSE
-            c_sorname = c_begin+c_rest
+            c_sortname = c_begin+c_rest
          ENDIF
       NEXT
    ENDDO
@@ -1073,20 +1073,20 @@ PROCEDURE AENDERUNG
             c_beginelse = SUBSTR(c_sortname,1,n_i-1)
             IF c_char$" Ž™š"
                IF c_char$"Ž"
-                  c_sorname = c_beginelse+"AE"+c_rest
+                  c_sortname = c_beginelse+"AE"+c_rest
                ENDIF
                IF c_char$"™"
-                  c_sorname = c_beginelse+"OE"+c_rest
+                  c_sortname = c_beginelse+"OE"+c_rest
                ENDIF
                IF c_char$"š"
-                  c_sorname = c_beginelse+"UE"+c_rest
+                  c_sortname = c_beginelse+"UE"+c_rest
                ENDIF
                IF c_char$" "
-                  c_sorname = c_beginelse+c_rest
+                  c_sortname = c_beginelse+c_rest
                   n_i = n_i - 1
                ENDIF
             ELSE
-               c_sorname = c_begin+c_rest
+               c_sortname = c_begin+c_rest
             ENDIF
          NEXT
       ENDDO
@@ -1152,11 +1152,17 @@ PROCEDURE ABSPEICHERN
 ************************************************************************
 SELECT 3
 
-LOCATE FOR ADRNR = n_ardnr
+LOCATE FOR ADRNR = n_adrnr
 
 IF ADRNR = n_adrnr
 
    CLEAR
+
+   IF (!LOCK())                           // Harbour addition
+      c_errortext = "Der Satz ist aktuell gesperrt,"+;
+                    " bitte sp„ter probieren"
+      RETURN                                // Harbour addition
+   ENDIF                                  // Harbour addition
 
    @ 10,30 SAY "Satznummer"
    @ 10,41 SAY n_adrnr
@@ -1188,6 +1194,8 @@ IF ADRNR = n_adrnr
    IF c_status = "L"
       REPLACE KZUEBER        WITH "D"
    ENDIF
+
+   UNLOCK                                 // Harbour addition
 
 ENDIF
 

@@ -9,7 +9,7 @@ SAVE TO QZWST
 RELEASE ALL
 
 STORE 1                    TO UPSNR
-STORE "KRIEGER"            TO UNACHNAME
+STORE "MERCK"              TO UNACHNAME
 STORE "08"                 TO UTAETIG
 
 SAVE TO USER

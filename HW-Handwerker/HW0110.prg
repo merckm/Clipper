@@ -78,11 +78,12 @@ STORE 000      TO n_vergleicher
 STORE 0        TO n_kleinster
 STORE 0        TO n_isteiner
 
+CLOSE DATABASES
 SELECT 1
-   USE HWADRES SHARED
+   USE HWADRES SHARED                           // Added SHARED for Harbour
 
 SELECT 2
-   USE aacode INDEX aasup01
+   USE aacode INDEX aasup01 SHARED              // Added SHARED for Harbour
 
 *--------------------------------------------------------------------------*
 * Programm z.B.  : Menue auf dem Bildschirm ausgeben

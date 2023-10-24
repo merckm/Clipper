@@ -11,4 +11,4 @@ REM
 REM
 REM Duild main program
 REM
-../../harbour-3.0.0/bin/win/mingw64/hbmk2 HW0100 HW0140
+../../harbour-3.0.0/bin/win/mingw64/hbmk2 HW0100 HW0131 HW0140

@@ -44,9 +44,7 @@ PROCEDURE MAIN()                    // Adaption for Harbour
 * Alle offenen Dateien schließen
 CLEAR ALL
 
-*SETMODE ( 25, 80 )
 SET CURSOR OFF
-*SETCOLOR ( "W+/B, GR+/R, N, GR+/N, GR+/R" )
 
 * Setzen der Arbeitsumgebung
 SET DATE GERMAN
@@ -55,6 +53,7 @@ SET MENU OFF
 SET HEADING OFF
 SET STATUS OFF
 SET MESSAGE TO 0
+SET PRINTER TO HW-ADR.prn              // For Harbour otherwise error on LPT1
 SET DEVICE TO SCREEN
 
 SET KEY 28 TO ENDE
