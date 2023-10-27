@@ -2,7 +2,7 @@
 * Author..: Martin Merck
 * Datum...: 13. September 1987
 * Notiz...:
-* Bemerck..: Profilauswahl und Plausibilit„tsprfungen
+* Bemerk..: Profilauswahl und Plausibilit„tsprfungen
 
 *----------------------------------------------------------------------*
 * Initialisierungen

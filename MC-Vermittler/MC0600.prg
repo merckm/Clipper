@@ -52,7 +52,7 @@ SET MENU OFF
 SET HEADING OFF
 SET STATUS OFF
 SET MESSAGE TO 0
-SET PRINTER TO HW-ADR.prn              // For Harbour otherwise error on LPT1
+SET PRINTER TO MC-ADR.prn              // For Harbour otherwise error on LPT1
 SET DEVICE TO SCREEN
 
 SET KEY 28 TO ENDE
