@@ -197,7 +197,7 @@ DO WHILE .T.
 
    FOR n_i = 2 TO 9
       IF ( n_int_key = n_i .AND. LEN(TRIM(f_key[n_i])) = 0)
-         c_errortext = "FEHLER: Funktionstaste wird nicht unterstÅ?tzt"
+         c_errortext = "FEHLER: Funktionstaste wird nicht unterstÅtzt"
          n_markerror = 1
          LOOP
       ENDIF
